@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script src="../js/echarts.js"></script>
+<script src="../js/jquery.min.js"></script>
+</head>
+<body>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+    $(function(){
+    	$.ajax({
+        	url:"http://localhost:8080/ECD/src/com/test/MyServlet_2.java",
+        	data:{},
+        	type:"post",
+        	success:function(data){
+        		alert(data.split("\t")[0]);
+        		alert(data.split("\t")[1]);
+        		createMyChart(eval("("+data.split("\t")[0]+")"),eval("("+data.split("\t")[1]+")"));
+        	}
+        });
+    });
+    
+    function createMyChart(chartData1,chartData2)
+    {
+    	 var myChart = echarts.init(document.getElementById('main'));
+
+         // 指定图表的配置项和数据
+
+	option = {
+		title : {
+	        text: '北京地区大数据招聘薪资柱状图',
+	        subtext: '北京市',
+	        x:'center'
+	    },
+    color: ['#3398DB'],
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : chartData2,
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'公司数量',
+            type:'bar',
+            barWidth: '60%',
+            data:chartData1
+        }
+    ]
+};
+
+        myChart.setOption(option);
+    }
+        // 基于准备好的dom，初始化echarts实例
+       
+    </script>
+</body>
+</html>
