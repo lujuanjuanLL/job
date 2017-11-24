@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8">
+ <title>Document</title>
+ <style>
+ * {margin: 0;padding: 0; }
+  body{background:#464547;}
+ .box{
+ border: 1px solid #000;
+ width: 600px;
+ height: auto;
+ margin:100px auto;
+ padding:30px 0;
+ background:#fffef9;
+ }
+ button{
+background:#fffef9;
+ }
+ textarea{
+ width: 450px;
+ resize:none;
+ margin-left: 20px;
+ }
+ ul li{
+ width: 450px;
+ list-style: none;
+ border-bottom: 1px dotted #ccc;
+ margin-left:20px;
+ line-height: 30px;
+ color: #333;
+ }
+ ul li a{
+ float: right;
+ font-size: 12px;
+ }
+ </style>
+<script src="../js/jquery.min.js"></script>
+ <script type="text/javascript">
+ // 方法1
+ window.onload = function () {
+ var box = document.getElementById("box");
+ var boys=box.children;
+ var ul = document.createElement("ul");
+ box.appendChild(ul);
+ boys[2].onclick = function (){
+ if(boys[1].value==""){
+ alert("输入不能为空");
+ return;
+ }
+ var newli= document.createElement("li");
+ newli.innerHTML=boys[1].value+"<a href='javascript:;'>删除</a>";
+ boys[1].value ="";
+ var lis=ul.children;
+ if(lis.length==0){ul.appendChild(newli);}else{
+ ul.insertBefore(newli, lis[0]);
+ }
+ var as=document.getElementsByTagName("a");
+ for (var i=0;i<as.length;i++){
+ as[i].onclick=function(){
+ ul.removeChild(this.parentNode);
+ }
+ }
+ }
+ }
+ // 方法2 引用jQuery
+ // $(function(){
+ // $("<ul></ul>").appendTo("#box");
+ // var $text = $("#box").find("textarea");
+ // var $btn = $("#box").find("button");
+ // $btn.on("click",function(){
+ // if($text.val() ==""){
+ // alert("请输入内容");
+ // return;
+ // }
+ // $("ul").prepend("<li>"+$text.val()+"<a href='javascript:;'>删除</a></li>");
+ // $text.val("");
+ // $("a").on("click",function(){
+ // $(this).parent("li").remove();
+ // })
+ // })
+ // })
+ </script>
+</head>
+<body>
+ <div class="box" id="box">
+ 微博发布：</br><textarea cols="30" rows="10"></textarea>
+ <button>发布</button> 
+ </div>
+</body>
+</html>
